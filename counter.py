@@ -1,7 +1,7 @@
 #counter to keep track of shots and score for golf
 #asking user to define number of holes
 num_holes = int(input("Enter number of holes: "))
-#initialising arrays to store all shots and scores and pars for the pars
+#initialising arrays to store all shots and scores and pars for the round
 score = [0] * num_holes
 shots = [0] * num_holes
 pars = [0] * num_holes

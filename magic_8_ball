@@ -4,7 +4,7 @@ import random
 #CHANGE NAME HERE
 name = "Tiger"
 #CHANGE YES/NO QUESTION HERE
-question = "Are you going to make a hole-in-one today?"
+question = "Am I going to make a hole in one today?"
 answer = ""
 print(name + " asks: " + question)
 

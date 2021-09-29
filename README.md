@@ -1,3 +1,3 @@
 # pythonStuff
 #Golf counter which tracks scores through user defined number of holes
-#option to input pars for each hole
+#Magic 8-ball takes a name and question and gives randomly generated response

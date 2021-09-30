@@ -18,10 +18,10 @@ def start_round():
     pars = get_par_ind(num_holes)
 
     for i in range(num_holes):
-        strk = enter_strokes(i)
+        strk = enter_strokes(i, pars)
         while not strk.isdigit():
             print("Not recognised. Try again.")
-            strk = enter_strokes(i)
+            strk = enter_strokes(i, pars)
 
         strokes[i] = int(strk)
         score[i] = strokes[i] - pars[i]
@@ -52,13 +52,17 @@ def get_pars(num_holes):
 #preset courses
     allerton = [4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 3, 4, 4, 4, 4, 3]
     bowring = [4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4]
+    pebble_beach = [4, 4, 4, 4, 3, 5, 3, 4, 4, 4, 4, 3, 4, 5, 4, 4, 3, 5]
 #get response from user
-    par_res = input("Enter pars or select course: \n[e] Enter pars \n[a] Allerton \n[b] Bowring \n> ")
+    par_res = input("Enter pars or select course: \n[e] Enter pars \n[a] Allerton Golf Course \n[b] Bowring Park \n[p] Pebble Beach Golf Links\n> ")
     if par_res == "a" or par_res == "A":
         pars = allerton
         return pars
     elif par_res == "b" or par_res == "B":
         pars = bowring
+        return pars
+    elif par_res == "p" or par_res == "P" or par_res == "pb" or par_res == "PB":
+        pars = pebble_beach
         return pars
     elif par_res == "e" or par_res == "E":
         return enter_pars(num_holes)
@@ -73,12 +77,13 @@ def enter_pars(num_holes):
     return pars_entered
 
 #let user enter strokes for given hole
-def enter_strokes(k):
+def enter_strokes(k, pars):
     hole_num = k + 1
-    print("Hole " + str(hole_num))
+    if pars[k] > 0:
+        print("Hole " + str(hole_num) + ", Par " + str(pars[k]))
+    else:
+        print("Hole " + str(hole_num))
     stroke = input("Enter strokes: ")
     return stroke
-
-
 
 start_round()

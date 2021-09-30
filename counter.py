@@ -1,56 +1,84 @@
 #counter to keep track of strokes and score for golf
-#asking user to define number of holes
-num_holes = int(input("Enter number of holes: "))
-#initialising arrays to store all strokes and scores and pars for the pars
-score = [0] * num_holes
-strokes = [0] * num_holes
-pars = [0] * num_holes
-total_strokes = 0
-total_score = 0
+#asking user to define number of holes, default to 18 if no answer given
+def start_round():
+    num_holes = input("Enter number of holes: ")
+    if num_holes == "0":
+        print("Number of holes defaulted to 18.\n")
+        num_holes = 18
+    elif num_holes.isdigit():
+        num_holes = int(num_holes)
+    else:
+        start_round()
+
+    #initialising arrays to store all strokes and scores and pars for the pars
+    pars = [0] * num_holes
+    score = [0] * num_holes
+    strokes = [0] * num_holes
+
+    pars = get_par_ind(num_holes)
+
+    for i in range(num_holes):
+        strk = enter_strokes(i)
+        while not strk.isdigit():
+            print("Not recognised. Try again.")
+            strk = enter_strokes(i)
+
+        strokes[i] = int(strk)
+        score[i] = strokes[i] - pars[i]
+        total_strokes = sum(strokes)
+        total_score = sum(score)
+        #if no par entered then we don't display the score
+        if pars[i] == 0:
+            print("Total Strokes: " + str(total_strokes) + " through " + str(i+1))
+        elif total_score < 0:
+            print("Total Strokes: " + str(total_strokes) + " (" + str(total_score) + ") through "  + str(i+1))
+        else:
+            print("Total Strokes: " + str(total_strokes) + " (+" + str(total_score) + ") through "  + str(i+1))
 
 
-allerton = [4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 3, 4, 4, 4, 4, 3]
-bowring = [4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4]
-#pars = allerton
 
-course_par = sum(pars)
+#letting user choose course/enter pars for the course or not
+def get_par_ind(num_holes):
+    user_par_ind = input("Enter pars? \n[y] Yes \n[n] No \n> ")
+    if user_par_ind == "y" or user_par_ind == "Y":
+        return get_pars(num_holes)
+    elif user_par_ind == "n" or user_par_ind == "N":
+        pars = [0] * num_holes
+        return pars
+    else:
+        return get_par_ind(num_holes)
 
-#setting up indicator for user to decide whether to enter pars for the course or not
-user_par_ind = input("Enter pars? [Y/N]: ")
+def get_pars(num_holes):
+#preset courses
+    allerton = [4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 3, 4, 4, 4, 4, 3]
+    bowring = [4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4]
+#get response from user
+    par_res = input("Enter pars or select course: \n[e] Enter pars \n[a] Allerton \n[b] Bowring \n> ")
+    if par_res == "a" or par_res == "A":
+        pars = allerton
+        return pars
+    elif par_res == "b" or par_res == "B":
+        pars = bowring
+        return pars
+    elif par_res == "e" or par_res == "E":
+        return enter_pars(num_holes)
+    else:
+        return get_pars(num_holes)
 
-#while loop to continue prompting an answer if user doesnt enter y or n
-while user_par_ind != "n" and user_par_ind != "N" and user_par_ind != "Y" and user_par_ind != "y":
-    print("Not recognised, try again")
-    user_par_ind = input("Enter pars? [Y/N]: ")
-    print("")
+#let user enter pars for all holes
+def enter_pars(num_holes):
+    pars_entered = [0] * num_holes
+    for j in range(num_holes):
+        pars_entered[j] = int(input("Enter par for Hole " + str(j + 1) + ":\n> "))
+    return pars_entered
 
-#let user enter pars for each hole
-if user_par_ind == "Y" or user_par_ind == "y":
-    for x in range(0, num_holes):
-        pars[x] = int(input("Par for Hole "+ str(x+1) + ": "))
-
-print("")
-
-i = 0
-#while loop to track users strokes and calculate score
-while i < num_holes:
-
-    hole_num = i + 1
+#let user enter strokes for given hole
+def enter_strokes(k):
+    hole_num = k + 1
     print("Hole " + str(hole_num))
+    stroke = input("Enter strokes: ")
+    return stroke
 
-    strokes[i] = int(input("Enter strokes for Hole " + str(hole_num) + ": "))
-    score[i] = strokes[i] - pars[i]
-    total_strokes = sum(strokes)
-    total_score = sum(score)
-    #if no par entered then we don't display the score
-    if pars[i] == 0:
-        print("Total Strokes: " + str(total_strokes))
 
-    if total_score > 0 and pars[i] != 0:
-        print("Total Strokes: " + str(total_strokes) + " (+" + str(total_score) + ")")
 
-    if total_score < 1 and pars[i] != 0:
-        print("Total Strokes: " + str(total_strokes) + " (" + str(total_score) + ")")
-
-    print("")
-    i = i + 1
+start_round()

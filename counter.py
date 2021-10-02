@@ -19,6 +19,11 @@ def start_round():
     strokes = [0] * num_holes
     # calling get_pars function to obtain user selection for pars/ no pars
     pars = get_par_ind(num_holes)
+    p = len(pars)
+    if p > num_holes:
+        while p > num_holes:
+            del pars[p-1]
+            p -= 1
     total_par = sum(pars)
     # loop through each hole to be played and get user strokes for each
     for i in range(num_holes):
@@ -76,7 +81,7 @@ def start_round():
     score_list.insert(0, "Score")
 
     # compile the lists into one
-    round_stats = [[]]
+    round_stats = []
 
     if sum(pars) > 0:
         round_stats.insert(0, score_list)
@@ -88,7 +93,11 @@ def start_round():
         round_stats.insert(0, strokes_list)
         round_stats.insert(0, holes_list)
         header = ["Hole", "Strokes"]
+#call function which asks whether user wants to save results and saves out csv file if so
+    create_csv(round_stats)
 
+def create_csv(round_stats):
+    import csv
 #let user select whether to save out their round and choose file name
     save_round_q = input("Save round? \n[y] Yes \n[n] No \n>")
     if save_round_q == "y" or save_round_q == "Y":
@@ -98,7 +107,11 @@ def start_round():
             writer = csv.writer(file)
             writer.writerows(csv_rowlist)
 
-    print("Bye, have a beautiful time")
+            print("Bye, have a beautiful time")
+    elif save_round_q == "n" or save_round_q == "N":
+        print("Bye, have a beautiful time")
+    else:
+        create_csv(round_stats)
 
 
 # letting user choose course/enter pars for the course or not
@@ -158,6 +171,5 @@ def enter_strokes(k, pars):
 
     stroke = input("Enter strokes: ")
     return stroke
-
 
 start_round()

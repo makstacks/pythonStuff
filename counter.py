@@ -4,7 +4,7 @@ import csv
 
 # asking user to define number of holes, default to 18 if no answer given
 def start_round():
-    num_holes = input("Enter number of holes: ")
+    num_holes = input("Enter number of holes: \n>")
     if num_holes == "0":
         print("Number of holes defaulted to 18.\n")
         num_holes = 18
@@ -19,6 +19,13 @@ def start_round():
     strokes = [0] * num_holes
     # calling get_pars function to obtain user selection for pars/ no pars
     pars = get_par_ind(num_holes)
+    #saving out course name
+    course = str(pars[-1])
+    if course.isdigit() == False:
+        print(course)
+        course = "Par (" + course + ")"
+    #saving out list with pars
+        pars = pars[0][0:num_holes]
     p = len(pars)
     if p > num_holes:
         while p > num_holes:
@@ -47,7 +54,6 @@ def start_round():
             print("Total Strokes: " + str(total_strokes) + " (+" + str(total_score) + ") through " + str(i + 1))
             print("")
 
-
     holes_list = []
     for j in range(1, num_holes + 1):
         holes_ins = j
@@ -67,7 +73,10 @@ def start_round():
         pars_ins = pars[l - 1]
         pars_list.append(pars_ins)
     pars_list.append(total_par)
-    pars_list.insert(0, "Pars")
+    if course.isdigit() == False:
+        pars_list.insert(0, course)
+    else:
+        pars_list.insert(0, "Par")
 
     score_list = []
     for m in range(1, num_holes + 1):
@@ -133,24 +142,30 @@ def get_pars(num_holes):
     pebble_beach = [4, 4, 4, 4, 3, 5, 3, 4, 4, 4, 4, 3, 4, 5, 4, 4, 3, 5]
     paynes_valley = [4, 3, 4, 5, 3, 4, 4, 5, 4, 3, 4, 4, 5, 4, 4, 3, 4, 5, 3]
     # get response from user
+    course = ""
     par_res = input(
         "Enter pars or select course: \n[e] Enter pars \n[a] Allerton Golf Course \n[b] Bowring Park \n[p] Pebble Beach Golf Links \n[v] Payne's Valley \n>")
     if par_res == "a" or par_res == "A":
         pars = allerton
-        return pars
+        course = "Allerton"
+        return pars, course
     elif par_res == "b" or par_res == "B":
         pars = bowring
-        return pars
+        course = "Bowring"
+        return pars, course
     elif par_res == "p" or par_res == "P" or par_res == "pb" or par_res == "PB":
         pars = pebble_beach
-        return pars
+        course = "Pebble Beach"
+        return pars, course
     elif par_res == "v" or par_res == "V" or par_res == "PV" or par_res == "pv":
         pars = paynes_valley
-        return pars
+        course = "Payne's Valley"
+        return pars, course
     elif par_res == "e" or par_res == "E":
         return enter_pars(num_holes)
     else:
         return get_pars(num_holes)
+
 
 
 # let user enter pars for all holes

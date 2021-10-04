@@ -45,13 +45,13 @@ def start_round():
         total_score = sum(score)
         # if no par entered then we don't display the score
         if pars[i] == 0:
-            print("Total Strokes: " + str(total_strokes) + " through " + str(i + 1))
+            print("Total Strokes: " + str(total_strokes) + " thru " + str(i + 1))
             print("")
         elif total_score < 0:
-            print("Total Strokes: " + str(total_strokes) + " (" + str(total_score) + ") through " + str(i + 1))
+            print("Total Strokes: " + str(total_strokes) + " (" + str(total_score) + ") thru " + str(i + 1))
             print("")
         else:
-            print("Total Strokes: " + str(total_strokes) + " (+" + str(total_score) + ") through " + str(i + 1))
+            print("Total Strokes: " + str(total_strokes) + " (+" + str(total_score) + ") thru " + str(i + 1))
             print("")
 
     holes_list = []

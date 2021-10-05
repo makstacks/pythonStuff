@@ -4,7 +4,7 @@ import csv
 
 # asking user to define number of holes, default to 18 if no answer given
 def start_round():
-    num_holes = input("Enter number of holes: \n>")
+    num_holes = input("Enter number of holes: \n> ")
     if num_holes == "0":
         print("Number of holes defaulted to 18.\n")
         num_holes = 18
@@ -93,34 +93,11 @@ def start_round():
     round_stats = []
 
     if sum(pars) > 0:
-        round_stats.insert(0, score_list)
-        round_stats.insert(0, strokes_list)
-        round_stats.insert(0, pars_list)
-        round_stats.insert(0, holes_list)
-        header = ["Hole", "Par", "Strokes", "Score"]
+        round_stats = holes_list + pars_list + strokes_list + score_list
     else:
-        round_stats.insert(0, strokes_list)
-        round_stats.insert(0, holes_list)
-        header = ["Hole", "Strokes"]
+        round_stats = holes_list + strokes_list
 #call function which asks whether user wants to save results and saves out csv file if so
     create_csv(round_stats)
-
-def create_csv(round_stats):
-    import csv
-#let user select whether to save out their round and choose file name
-    save_round_q = input("Save round? \n[y] Yes \n[n] No \n>")
-    if save_round_q == "y" or save_round_q == "Y":
-        csv_name = input("Enter file name: \n>")
-        csv_rowlist = [round_stats]
-        with open(csv_name + '.csv', 'w') as file:
-            writer = csv.writer(file)
-            writer.writerows(csv_rowlist)
-
-            print("Bye, have a beautiful time")
-    elif save_round_q == "n" or save_round_q == "N":
-        print("Bye, have a beautiful time")
-    else:
-        create_csv(round_stats)
 
 
 # letting user choose course/enter pars for the course or not
@@ -144,7 +121,7 @@ def get_pars(num_holes):
     # get response from user
     course = ""
     par_res = input(
-        "Enter pars or select course: \n[e] Enter pars \n[a] Allerton Golf Course \n[b] Bowring Park \n[p] Pebble Beach Golf Links \n[v] Payne's Valley \n>")
+        "Enter pars or select course: \n[e] Enter pars \n[a] Allerton Golf Course \n[b] Bowring Park \n[p] Pebble Beach Golf Links \n[v] Payne's Valley \n> ")
     if par_res == "a" or par_res == "A":
         pars = allerton
         course = "Allerton"
@@ -165,8 +142,7 @@ def get_pars(num_holes):
         return enter_pars(num_holes)
     else:
         return get_pars(num_holes)
-
-
+    
 
 # let user enter pars for all holes
 def enter_pars(num_holes):
@@ -186,5 +162,22 @@ def enter_strokes(k, pars):
 
     stroke = input("Enter strokes: ")
     return stroke
+
+def create_csv(round_stats):
+    import csv
+    #let user select whether to save out their round and choose file name
+    save_round_q = input("Save round? \n[y] Yes \n[n] No \n> ")
+    if save_round_q == "y" or save_round_q == "Y":
+        csv_name = input("Enter file name: \n> ")
+        csv_rowlist = [round_stats]
+        with open(csv_name + '.csv', 'w') as file:
+            writer = csv.writer(file)
+            writer.writerows(csv_rowlist)
+
+            print("Bye, have a beautiful time")
+    elif save_round_q == "n" or save_round_q == "N":
+        print("Bye, have a beautiful time")
+    else:
+        create_csv(round_stats)
 
 start_round()
